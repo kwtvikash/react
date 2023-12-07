@@ -5,6 +5,12 @@ import {useUser} from "./UserContext";
 import { useNavigate } from "react-router-dom";
 
 function Landing() {
+
+  // import Cookies from 'universal-cookie';
+  // const cookies = new Cookies();
+  // const token = cookies.get("token");
+  // cookies.set('token', signIn.data.token, { path: '/' });
+
   const navigate = useNavigate();
 
   // const userInfo = useContext(User);
