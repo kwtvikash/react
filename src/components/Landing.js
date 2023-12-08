@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import User from "./UserContext";
 import { login, counteryCode } from "./helper";
-import {useUser} from "./UserContext";
+import { useUser } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 
 function Landing() {
@@ -39,7 +39,7 @@ function Landing() {
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
     setSelectedCountry(selectedCountry);
-
+    handleUserDetails('countery', selectedCountry)
     // Fetch states based on the selected country (you may need a separate function for this)
     // For demonstration, let's assume you have a function getStatesByCountry
     // const states = await getStatesByCountry(selectedCountry);
@@ -67,18 +67,21 @@ function Landing() {
 
       <div>
         <label htmlFor="countrySelect">Select a Country:</label>
+   
+      
         <select
-          id="countrySelect"
-          onChange={handleCountryChange}
-          value={selectedCountry}
-        >
-          <option value="">Select a Country</option>
-          {countryList.map((country) => (
-            <option key={country.name.common} value={country.name.common}>
-              {country.name.common} - {country.name.common}
-            </option>
-          ))}
-        </select>
+  id="countrySelect"
+  onChange={handleCountryChange}
+  value={userDetails.countery}
+>
+  <option value="">Select a Country</option>
+  {countryList.map((country) => (
+    <option key={country.name.common} value={country.name.common}>
+      {country.name.common} - {country.name.common}
+    </option>
+  ))}
+</select>
+
       </div>
 
       {selectedCountry && (
@@ -98,7 +101,7 @@ function Landing() {
       <button className="dwd" onClick={clickHere}>
         Click
       </button>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       <div>
         <input
           type="text"
@@ -116,15 +119,27 @@ function Landing() {
       </div>
 
       <div className="output">
-        <h2>Output:</h2>
-        <ul>
-          {outputList.map((data, index) => (
-            <li key={index}>{`${data.fname} ${data.lname}`}</li>
-          ))}
-        </ul>
-      </div>
+  <h2>Output:</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {outputList.map((data, index) => (
+        <tr key={index}>
+          <td>{data.fname}</td>
+          <td>{data.lname}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-      <button onClick={()=>navigate('/output')}>Output</button>
+
+      <button onClick={() => navigate('/output')}>Output</button>
     </>
   );
 }
