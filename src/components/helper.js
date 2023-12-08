@@ -44,3 +44,49 @@ axios.request(config)
 
     })
 }
+
+export const getStatesByCountry = (selectedCountry) =>{
+  return new Promise((resolve,reject)=>{
+
+let config = {
+method: 'get',
+maxBodyLength: Infinity,
+url: 'https://restcountries.com/v3.1/all?fields=name,alpha2Code',
+headers: { }
+};
+
+axios.request(config)
+.then((response) => {
+resolve(response.data)
+
+})
+.catch((error) => {
+console.log(error);
+reject(error)
+});
+
+  })
+}
+
+export const getDistByState = (selectedCountry) =>{
+  return new Promise((resolve,reject)=>{
+
+let config = {
+method: 'get',
+maxBodyLength: Infinity,
+url: 'https://restcountries.com/v3.1/all?fields=name,alpha2Code',
+headers: { }
+};
+
+axios.request(config)
+.then((response) => {
+resolve(response.data)
+
+})
+.catch((error) => {
+console.log(error);
+reject(error)
+});
+
+  })
+}

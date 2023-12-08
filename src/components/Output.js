@@ -13,14 +13,36 @@ function Output(){
         </div>
         <div className="output">
          <div>
-         Countery - {userDetails.countery}
+         Countery - {userDetails.countery}<br></br>
+         State - {userDetails.state}<br></br>
+         Distict - {userDetails.distict}<br></br>
+
         </div>
+
+        <div className="output">
         <h2>Output:</h2>
-        <ul>
-          {outputList.map((data, index) => (
-            <li key={index}>{`${data.fname} ${data.lname}`}</li>
-          ))}
-        </ul>
+        <div>
+        <table border="1" style={{margin:"auto"}}>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {outputList.map((data, index) => (
+              <tr key={index}>
+                <td>{data.fname}</td>
+                <td>{data.lname}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+       
+      </div>
+       
+       
       </div>
       </>
     )

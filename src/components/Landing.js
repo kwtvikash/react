@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import User from "./UserContext";
-import { login, counteryCode } from "./helper";
+import { login, counteryCode, getStatesByCountry ,getDistByState} from "./helper";
 import { useUser } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,8 +15,14 @@ function Landing() {
 
   // const userInfo = useContext(User);
   const [countryList, setCountryList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
   const [stateList, setStateList] = useState([]);
+  const [distList, setDistList] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+
+  const [selectedState, setSelectedState] = useState("");
+
+  const [selectedDist, setSelectedDist] = useState("");
+
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   // const [outputList, setOutputList] = useState([]);
@@ -27,6 +33,7 @@ function Landing() {
       const countries = await counteryCode();
       setCountryList(countries);
     };
+    
 
     fetchData();
   }, []);
@@ -36,14 +43,28 @@ function Landing() {
     console.log("dfghj", res);
   };
 
-  const handleCountryChange = (event) => {
+  const handleCountryChange = async (event) => {
     const selectedCountry = event.target.value;
     setSelectedCountry(selectedCountry);
     handleUserDetails('countery', selectedCountry)
-    // Fetch states based on the selected country (you may need a separate function for this)
-    // For demonstration, let's assume you have a function getStatesByCountry
-    // const states = await getStatesByCountry(selectedCountry);
-    // setStateList(states);
+
+    const states = await getStatesByCountry(selectedCountry);
+    setStateList(states);
+  };
+
+  const handleCStateChange = async (event) => {
+    const selectedCountry = event.target.value;
+    setSelectedState(selectedCountry);
+    handleUserDetails('state', selectedCountry)
+
+    const distict = await getDistByState(selectedCountry);
+    setDistList(distict);
+  };
+
+  const handleDictChange = async (event) => {
+    const selectedCountry = event.target.value;
+    setSelectedDist(selectedCountry);
+    handleUserDetails('distict', selectedCountry)
   };
 
   const handleAddData = () => {
@@ -67,40 +88,56 @@ function Landing() {
 
       <div>
         <label htmlFor="countrySelect">Select a Country:</label>
-   
-      
+
+
         <select
-  id="countrySelect"
-  onChange={handleCountryChange}
-  value={userDetails.countery}
->
-  <option value="">Select a Country</option>
-  {countryList.map((country) => (
-    <option key={country.name.common} value={country.name.common}>
-      {country.name.common} - {country.name.common}
-    </option>
-  ))}
-</select>
+          id="countrySelect"
+          onChange={handleCountryChange}
+          value={userDetails.countery}
+        >
+          <option value="">Select a Country</option>
+          {countryList.map((country) => (
+            <option key={country.name.common} value={country.name.common}>
+              {country.name.common} - {country.name.common}
+            </option>
+          ))}
+        </select>
 
       </div>
 
-      {selectedCountry && (
+
         <div>
-          <label htmlFor="stateSelect">Select a State:</label>
-          <select id="stateSelect">
+          <label >Select a State:</label>
+          <select 
+          onChange={handleCStateChange}
+          value={userDetails.state}
+          >
             {/* Map through the stateList and display options */}
             {stateList.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
+              <option key={state.name.common} value={state.name.common}>
+              {state.name.common} - {state.name.common}
+            </option>
             ))}
           </select>
         </div>
-      )}
 
-      <button className="dwd" onClick={clickHere}>
-        Click
-      </button>
+        <div>
+          <label >Select a Distict:</label>
+          <select 
+          onChange={handleDictChange}
+          value={userDetails.distict}
+          >
+            {/* Map through the stateList and display options */}
+            {distList.map((state) => (
+              <option key={state.name.common} value={state.name.common}>
+              {state.name.common} - {state.name.common}
+            </option>
+            ))}
+          </select>
+        </div>
+     
+
+   
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       <div>
         <input
@@ -119,24 +156,24 @@ function Landing() {
       </div>
 
       <div className="output">
-  <h2>Output:</h2>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {outputList.map((data, index) => (
-        <tr key={index}>
-          <td>{data.fname}</td>
-          <td>{data.lname}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+        <h2>Output:</h2>
+        <table border="1" style={{margin:"auto"}}>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {outputList.map((data, index) => (
+              <tr key={index}>
+                <td>{data.fname}</td>
+                <td>{data.lname}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
 
       <button onClick={() => navigate('/output')}>Output</button>
